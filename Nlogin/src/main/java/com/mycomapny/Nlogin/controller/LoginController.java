@@ -1,4 +1,4 @@
-package com.mycomapny.controller;
+package com.mycomapny.Nlogin.controller;
 
 import java.io.IOException;
 

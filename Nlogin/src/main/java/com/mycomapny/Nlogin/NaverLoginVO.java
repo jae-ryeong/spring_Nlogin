@@ -3,7 +3,6 @@ package com.mycomapny.Nlogin;
 import java.io.IOException;
 import java.util.UUID;
 
-import javax.annotation.Generated;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.util.StringUtils;
