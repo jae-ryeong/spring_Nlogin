@@ -38,10 +38,10 @@ public class NaverLoginVO {
 		
 		// Scribe에서 제공하는 인증 URL 생성 기능을 이용하여 네이버아이디로 인증 URL 생성
 		OAuth20Service oauthService = new ServiceBuilder()
-		.apiKey(CLIENT_ID)
-		.apiSecret(CLIENT_SECRET)
-		.callback(REDIRECT_URI)
-		.state(state) // 앞서 새애성한 난수값을 인증 URL생성시 사용함
+		.apiKey(CLIENT_ID) // API키 구성
+		.apiSecret(CLIENT_SECRET) // API암호 구성
+		.callback(REDIRECT_URI) // OAuth 콜백 URL 추가
+		.state(state) // 앞서 생성한 난수값을 인증 URL생성시 사용함, 위변조 방지 세션 상태 설정
 		.build(NaverLoginApi.instance());
 		
 		return oauthService.getAuthorizationUrl();
@@ -54,13 +54,14 @@ public class NaverLoginVO {
 		String sessionState = getSession(session);
 		if(StringUtils.pathEquals(sessionState, state)){
 			OAuth20Service oauthService = new ServiceBuilder()
-					.apiKey(CLIENT_ID)
-					.apiSecret(CLIENT_SECRET)
-					.callback(REDIRECT_URI)
-					.state(state)
-					.build(NaverLoginApi.instance());
+					.apiKey(CLIENT_ID)	// API키 구성
+					.apiSecret(CLIENT_SECRET)	// API암호 구성
+					.callback(REDIRECT_URI)	// OAuth콜백 URL 추가
+					.state(state)	//위변조 방지 세션 상태 설정
+					.build(NaverLoginApi.instance());	// 완전히 구성된 반환S
 			
 			// Scribe에서 제공하는 AccessToken 획득 기능으로 네이버아이디로 Access Token을 획득
+			// 리소스 서버에게서 리소스 소유자의 보호된 자원을 획득할 때 사용되는 만료 기간이 있는 Token입니다.
 			OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
 			return accessToken;
 		}
@@ -91,6 +92,7 @@ public class NaverLoginVO {
 				.callback(REDIRECT_URI)
 				.build(NaverLoginApi.instance());
 		
+		// OAuthRequest: 서버에 보낼 OAuth 요청
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
 		
 		oauthService.signRequest(oauthToken, request);

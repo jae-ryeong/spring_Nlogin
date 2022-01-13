@@ -27,6 +27,7 @@ public class LoginController {
 	}
 	
 	// 로그인 첫 화면 요청 메소드
+	// get과 post 방식 둘 다 받겠다는 의미
 	@RequestMapping(value="/login", method= {RequestMethod.GET, RequestMethod.POST})
 	public String login(Model model,HttpSession session) {
 		
@@ -45,6 +46,7 @@ public class LoginController {
 	}
 	
 	//네이버 로그인 성공시 callback호출 메소드
+	//reqeustParam이란 값을 받아오는 것
 	@RequestMapping(value = "/callback",method= {RequestMethod.GET, RequestMethod.POST})
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException{
